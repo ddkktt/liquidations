@@ -1,38 +1,219 @@
-   <!DOCTYPE html>
-   <html>
-   <head>
-     <meta charset="UTF-8">
-     <title>Liquidation Reports</title>
-     <style>
-       body { 
-         background-color: #121212; 
-         color: white; 
-         font-family: Arial, sans-serif; 
-         margin: 20px;
-       }
-       h1 { color: #e0e0e0; }
-       .container {
-         max-width: 800px;
-         margin: 0 auto;
-       }
-       .reports {
-         margin-top: 30px;
-       }
-     </style>
-   </head>
-   <body>
-     <div class="container">
-       <h1>Liquidation Analysis Reports</h1>
-       <p>This site hosts interactive liquidation analysis reports.</p>
-       <div class="reports">
-          <p><a href="BTC_liquidation_20250309004927.html">BTC Liquidation Report (2025-03-09 00:49)</a></p>
-        
-          <p><a href="BTC_liquidation_20250309004850.html">BTC Liquidation Report (2025-03-09 00:48)</a></p>
-        
-          <p><a href="BTC_liquidation_20250308233832.html">BTC Liquidation Report (2025-03-08 23:38)</a></p>
-        
-         <p>Individual reports will appear here as they are generated.</p>
-       </div>
-     </div>
-   </body>
-   </html>
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Crypto Liquidation Analysis</title>
+  <style>
+    body { 
+      background-color: #121212; 
+      color: white; 
+      font-family: Arial, sans-serif; 
+      margin: 0;
+      padding: 0;
+    }
+    h1 { 
+      color: #e0e0e0;
+      margin-bottom: 30px; 
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+    .control-panel {
+      background-color: rgba(30, 30, 40, 0.8);
+      padding: 20px;
+      border-radius: 10px;
+      margin-bottom: 30px;
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+    .selector-group {
+      display: flex;
+      flex-direction: column;
+      min-width: 200px;
+    }
+    label {
+      margin-bottom: 8px;
+      font-weight: bold;
+      color: #66b2ff;
+    }
+    select, button {
+      background-color: #2a2a3a;
+      color: white;
+      padding: 10px;
+      border: 1px solid #444;
+      border-radius: 5px;
+      font-size: 16px;
+      width: 100%;
+    }
+    button {
+      background-color: #0066cc;
+      border: none;
+      cursor: pointer;
+      min-width: 120px;
+      transition: background-color 0.2s;
+    }
+    button:hover {
+      background-color: #0077ee;
+    }
+    .view-chart {
+      align-self: flex-end;
+      margin-top: 24px;
+    }
+    .chart-container {
+      min-height: 600px;
+      background-color: rgba(20, 20, 30, 0.5);
+      border-radius: 10px;
+      padding: 20px;
+    }
+    iframe {
+      width: 100%;
+      height: 800px;
+      border: none;
+      overflow: hidden;
+    }
+    .loading {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 400px;
+    }
+    .spinner {
+      border: 4px solid rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+      border-top: 4px solid #0066cc;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Crypto Liquidation Analysis</h1>
+    
+    <div class="control-panel">
+      <div class="selector-group">
+        <label for="asset-select">Select Asset:</label>
+        <select id="asset-select">
+          <option value="BTC">Bitcoin (BTC)</option>
+          <option value="ETH">Ethereum (ETH)</option>
+          <option value="SOL">Solana (SOL)</option>
+          <option value="AVAX">Avalanche (AVAX)</option>
+          <option value="AAVE">Aave (AAVE)</option>
+          <option value="LINK">Chainlink (LINK)</option>
+          <option value="DOGE">Dogecoin (DOGE)</option>
+        </select>
+      </div>
+      
+      <div class="selector-group">
+        <label for="timeframe-select">Select Timeframe:</label>
+        <select id="timeframe-select">
+          <option value="1">Last 1 Day</option>
+          <option value="7">Last 7 Days</option>
+          <option value="14">Last 14 Days</option>
+          <option value="30" selected>Last 30 Days</option>
+          <option value="60">Last 60 Days</option>
+          <option value="90">Last 90 Days</option>
+        </select>
+      </div>
+      
+      <div class="selector-group">
+        <button id="view-chart" class="view-chart">View Chart</button>
+      </div>
+    </div>
+    
+    <div class="chart-container" id="chart-container">
+      <div class="loading" id="loading-indicator">
+        <div class="spinner"></div>
+      </div>
+      <iframe id="chart-frame" style="display:none"></iframe>
+    </div>
+  </div>
+
+  <script>
+    // Chart navigation logic
+    document.getElementById('view-chart').addEventListener('click', loadChart);
+    
+    // Also load chart on page load using URL parameters or defaults
+    document.addEventListener('DOMContentLoaded', function() {
+      // Check for URL parameters
+      const urlParams = new URLSearchParams(window.location.search);
+      const assetParam = urlParams.get('asset');
+      const daysParam = urlParams.get('days');
+      
+      // Set values from URL parameters if available
+      if (assetParam) {
+        document.getElementById('asset-select').value = assetParam.toUpperCase();
+      }
+      if (daysParam) {
+        document.getElementById('timeframe-select').value = daysParam;
+      }
+      
+      // Load chart with these parameters
+      loadChart();
+    });
+    
+    function loadChart() {
+      const asset = document.getElementById('asset-select').value;
+      const days = document.getElementById('timeframe-select').value;
+      
+      // Update URL without reloading page
+      const url = new URL(window.location);
+      url.searchParams.set('asset', asset);
+      url.searchParams.set('days', days);
+      window.history.pushState({}, '', url);
+      
+      // Show loading indicator
+      document.getElementById('loading-indicator').style.display = 'flex';
+      document.getElementById('chart-frame').style.display = 'none';
+      
+      // Get most recent chart file for this asset
+      fetch('chart_manifest.json')
+        .then(response => response.json())
+        .then(manifest => {
+          const assetCharts = manifest[asset] || [];
+          const timeframeCharts = assetCharts.filter(chart => chart.days == days);
+          
+          if (timeframeCharts.length > 0) {
+            // Sort by timestamp (newest first) and get the most recent
+            timeframeCharts.sort((a, b) => b.timestamp - a.timestamp);
+            const chartFile = timeframeCharts[0].filename;
+            
+            // Load the chart in the iframe
+            const iframe = document.getElementById('chart-frame');
+            iframe.src = chartFile;
+            iframe.onload = function() {
+              document.getElementById('loading-indicator').style.display = 'none';
+              iframe.style.display = 'block';
+            };
+          } else {
+            // No chart found for this combination
+            document.getElementById('loading-indicator').style.display = 'none';
+            document.getElementById('chart-container').innerHTML = 
+              `<div style="text-align: center; padding: 40px;">
+                <h2>No chart available for ${asset} with ${days}-day timeframe</h2>
+                <p>Please select a different asset or timeframe.</p>
+              </div>`;
+          }
+        })
+        .catch(error => {
+          console.error('Error loading chart manifest:', error);
+          document.getElementById('loading-indicator').style.display = 'none';
+          document.getElementById('chart-container').innerHTML = 
+            `<div style="text-align: center; padding: 40px;">
+              <h2>Error loading charts</h2>
+              <p>Please try again later.</p>
+            </div>`;
+        });
+    }
+  </script>
+</body>
+</html>
