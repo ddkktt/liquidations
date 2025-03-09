@@ -1,0 +1,442 @@
+
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>BTC Liquidation Analysis</title>
+            <style>
+                body { background-color: #121212; color: white; font-family: Arial, sans-serif; margin: 20px; }
+                h1, h2 { color: #e0e0e0; }
+                .timestamp { margin-top: 20px; font-size: 12px; color: #888; }
+            </style>
+        </head>
+        <body>
+            <h1>BTC Liquidation Analysis</h1>
+            <div>                        <script type="text/javascript">window.PlotlyConfig = {MathJaxConfig: 'local'};</script>
+        <script charset="utf-8" src="https://cdn.plot.ly/plotly-3.0.0.min.js"></script>                <div id="30e4a47e-df87-4805-a11b-8fde29422a31" class="plotly-graph-div" style="height:800px; width:1200px;"></div>            <script type="text/javascript">                window.PLOTLYENV=window.PLOTLYENV || {};                                if (document.getElementById("30e4a47e-df87-4805-a11b-8fde29422a31")) {                    Plotly.newPlot(                        "30e4a47e-df87-4805-a11b-8fde29422a31",                        [{"colorbar":{"title":{"side":"right","text":"Liquidation Size\u003cbr\u003e(BTC)"}},"colorscale":[[0,"rgba(220, 20, 60, 0.9)"],[0.25,"rgba(255, 69, 0, 0.85)"],[0.45,"rgba(255, 165, 0, 0.8)"],[0.5,"rgba(40, 40, 40, 0.2)"],[0.55,"rgba(46, 139, 87, 0.8)"],[0.75,"rgba(30, 144, 255, 0.85)"],[1,"rgba(138, 43, 226, 0.9)"]],"hovertemplate":"Time: %{x}\u003cbr\u003ePrice: $%{y:.2f}\u003cbr\u003eSize: %{z:.4f} BTC\u003cextra\u003e\u003c\u002fextra\u003e","x":["17:17","19:47","20:32","21:02","21:32","22:02","22:32","23:17","23:47","00:17","01:02","01:32","12:32","13:17","13:47","14:17","15:02","15:32"],"y":[57580.595,58801.384999999995,60022.175,61242.965,62463.755,63684.545,64905.335,66126.125,67346.91500000001,68567.705,69788.495,71009.285,72230.075,73450.86499999999,74671.655,75892.445,77113.235,78334.025,79554.815,80775.605,81996.395,83217.185,84437.975,85658.765,86879.555,88100.345,89321.13500000001,90541.925,91762.715,92983.505,94204.295,95425.085,96645.875,97866.66500000001,99087.455,100308.24500000001,101529.035,102749.82500000001,103970.615,105191.405],"z":{"dtype":"f8","bdata":"dzI4Sl5RRkBYBP9bya4+QOFASBYwXUBAzgGCOXo8PkCCc0aU9k48QNcv2A3bxj5AGA6EZAHrPkDGounsZHAsQA3gLZCgqCpA+z+H+fLyJkDa\u002fpWVJiU\u002fQDpdFhObe0BAwVHy6hwDJ0DOTgZHyWsmQOVhodY0zyRAPzVeuknMH0BnRGlv8AUxQHEgJAuYICRAfhghPNr4NED7XG3F\u002fuIyQJ1oVyHlBzNAVkPiHktfNUCrPldbsac2QF\u002fSGK2jIjJAT6+UZYgbMkAqHaz\u002fc3AzQF\u002fv\u002fniv+jNAza\u002fmAMEsNEBprtNIS200QIQqNXugHTRA5MKBkCwANUBq9kArMDQ4QCkF3V7SmDRA\u002fkP67eusSEDufD81XqoyQMAma9RDpDJAKzV7oBVQNEChEAGHUD00QBHfiVkvJjlAd\u002fNUh9xsOEBd+SzPg3s4QMwLsI9OjTxAgT6RJ0lHRUAYeO49XDZEQMPYQpCDWjZAr3d\u002fvFchQkAAHebLCyBCQAEwnkFDHzRAlPYGX5g0T0BuaTUk7u1NQCEf9GxWvVxAH9eGinEoV0ApyxDHuvJSQJV9VwT\u002fAzhAAKlNnNzfLEDnHafoSD40QAyreCPz+ClAJjYf14a6KUDABG7dzeMrQPpEniRd0zpAwvo\u002fh\u002fkyKUBQ3zKny2IqQG6GG\u002fD5IUBAYVRSJ6C5M0Asn+V5cK8xQM5r7BLV6zpA\u002fgkuVtSPYkDfFcH\u002fVmliQBVXlX1XZlhA1A5\u002fTdZ4XUABvAUSFC1ZQBCv6xfsJmNArhIsDmf6Q0AkEK\u002frF0QyQICfceFAmDtADDz3Hi5xNUAF3V7SGNUxQBxClZo9SDRAUvLqHAMSOkBOKETAIRQ6QGmM1lHVDDpA1lbsL7t3L0DPg7uzdqs6QAa7YduinD9AiBHCo40LNUBxcr9DUUg5QNO84xQdGTlAe737472aKUBIopdRLHcqQIRHG0esXTFAejarPldBWUCsi9toALVaQNf6IqEtI1lARloqb0fuWkDnGJC93n1bQIMvTKYKtFpAa5+OxwwkWUDX+iKhLSVZQGufjscMJFlADAIrhxZhW0DxS\u002f28qTBZQHe5iO\u002fEJllAuVM6WP83NUA9Sbpm8o0rQNI6qpogOitAGRwlr87XVUBoke18P6FIQA\u002fuztptBzBAGM+goX+wV0Bn0NA\u002fwRlXQL8OnDOiHldAisiwijf0VkBRZoNMMiJXQAtGJXUCKFdA7j1cctzrV0BrZcIv9blXQDvHgOz1JldAcXK\u002fQ1EoV0DPa+wS1UVXQGIQWDm02ldA81meB3ePSkANVMa\u002fz2heQJayDHGsXGZA0dA\u002fwcWuYEDM8+DurNFpQPfHe9XKlmJAXW3F\u002frKbMEDHaB1VTeAuQGXHRiBeJy5AL4uJzcedQED0Morllv4+QBnKiXYVwi1AnS6Lic0nKUCdhT3t8CcpQEiKyLCK1y1AgZVDi2wnLUCeXinLECcuQC4cCMkCdilA\u002freSHRs1V0DVeOkmMaxAQNGWcymumkFA8zy4O2snPkAe+YOB5xhTQDp6\u002fN6m5VVAgv+tZMfeN0Bu+rMfKeI3QGDl0CLbYTRAxFp8CoBZNEAuBDkoYc42QKTk1TkGXDRAW7G\u002f7J5MNUDKplzhXXY1QPkx5q4lXDRAvvbMkgCFNEDPMSB7vQs0QCcxCKwcCjRAhetRuB5ZQkBf0hitowJBQHxJY7SOij9ALzTXaaTFR0BIFjCBW69JQBFYObTIxlRAa0PFOH8rTUBh4Ln3cNFMQN\u002fDJcedbFRASp2AJsLeTkDPFDqvsc9MQN6rVib81k5AXI\u002fC9SgsTkAANbVsrRdOQFcm\u002fFI\u002fj05Ar84xIHuNTkC6awn5oIdOQJkqGJXUUU5AujE9YYl1UUCGWtO8485SQClcj8L1lFVAjq89sySAVEClTkATYXlWQKIL6lvmElJARvC\u002flewES0BeonprYIlSQBueXinLxEpAsVBrmnfISkCOQLyuX6xMQOjewyXHSUtABYvDmV+RSkDUvOMUHalKQBKI1\u002fULtkpA3SQGgZWrSkCHinH+JrhKQPw6cM6I7kpAhc5r7BK9SEBhpu1fWZVNQMXm49pQdUpA1XjpJjG0SUCCrRIsDsNJQEG3lzRGB09ALWACt+4GPUB1djI4Sj45QH4AUps4MTdAsoUgByVEN0BMN4lBYEU3QCVYHM787kdAWMUbmUfiRkCxpx3+mnBGQD86deWzzDVA+grSjEVLNUCg4GJFDc4zQCL99nXgxERAUBn\u002fPmPFcUAF3V7SGAdxQOnUlc\u002fy1XBArrt5qkPfYUBWgsXhzJthQM0eaAWGjDpAKSLDKt4GVkB7ZkmAmvJPQHpwd9Zuh09An3HhQEh+T0DejnBa8I5PQJ7vp8ZL5VBAE4PAyqHHUUDcnbXbLnZRQHkGDf0TMlBAZFjFG5krUkDqBDQRNoxSQIhGdxA7R0pAFvvL7skPTEBivrwA+\u002f5SQOAQqtTsUUhAh8Q9lj4YaUDPg7uzdmdrQPIMGvoninNAhhvw+WE0TEDJHww89\u002fJVQK67eapDi2pA6YL6ljlPakD3XRH8b0NqQID2I0Vko2ZAdF5jl6igZkDA54cRwi9PQKomiLoP1lZAeUDZlCssV0Drbp7qkAdXQJgXYB+dAldAYjJVMCqbVEByM9yAz9tXQILn3sMlcV5ARuuoaoKGV0ATSfQyintUQAjm6PF7o1VA0jqqmqAfcEDhC5OpguNuQIBIv30dQGBA0nR2MjhwYEA8GRwlr\u002fRYQNV46SYxKl9A5KWbxCBiX0Dqz36kiHJvQCUjZ2FPH3BA8piByvg4a0DgZ1w4ENBuQEht4uR+uG9A8kHPZtXrVECq8dJNYjBJQBYYsrrVnVVAf0i\u002ffR2CW0DQCgxZ3U5cQLPSpBR0V01AtwvNdRqpT0DmIr4Ts4ZSQMR8eQH2ZUhAEmvxKQA2R0Av3SQGgRVVQFExzt+Erk1AUUmdgCYOSkDsbp7qkLlRQMWsF0M5pVFAE7h1N09HWkBVNUHUfVJRQIj58gLsN1FATWcng6PfYUCyS1RvDXZZQDRLAtTUXFJAUAEwnkFDWkD5vU1\u002f9idRQGJKJNHLpWRAjBAebRwPXkBHA3gLJBxaQLDmAMEcsVpA8kHPZtWbW0ADYDyDhr5aQCHlJ9U+rVpAyHvVyoRdXED5D+m3r8NWQBXj\u002fE0o2lZASFD8GHOpVkD9h\u002fTb18lZQOQs7GmHSV1Aa0jcY+maYUDL2xFOC5llQNmUK7xLXnFADyibcoW8b0ATLA5nfpZyQMRafAqAsG1AAmVTrvDgXUAEHEKVmoJjQMcRa\u002fEpj2NApmH4iJiOY0BQ5EnSNRtgQG9HOC14dGNAC7WmecdzY0Bi83FtqA9kQL4Ts14MUmRAU8vW+iLpYkA3VIzzNzZiQEpBt5c0nWBAyOpWz0mhZECDaRg+ImNkQJbFxObjpWlAFMstrYYQa0AOYmcKnaFpQCNKe4Mv+2NA+grSjEU7QkDcLjTXafBCQLByaJHtHD1Akst\u002fSL+lPEA6zJcXYINKQN8Vwf9WkjtAQmDl0CKbO0A5fxMKERg7QJRliGNdPDlAD7QCQ1ZHPkBl3xXB\u002fx5CQCMtlbcjbDxAPE7RkVwveEA6kst\u002fyDF5QPyMCwdCCXBA0QoMWd1jb0BBvK5fsAZwQFVq9kCrrnpAkbjH0oeGU0BGfCdmvXpSQFrd6jnpy1VA1hwgmKNlUkDSUnk7ws9TQEz9vKlIUVNARG6GG\u002fCPUkDlfoeiQKtSQHDwhclUpVJAR8mrcwwqU0AgQfFjzI9TQJ8CYDyDmlNAdc3km20OZUBkARO4dQ5lQECp9ul4\u002fmRAofMau0RVZUD1LXO6LDtgQLCPTl35w2dAAMYzaOhVbkDLLa2GRKJwQIhGdxA7omdAv2A3bFtzZ0BNofMau4hnQFrTvOMUFGlAX5hMFYyKZ0D8kSIyrINnQJM6AU2EfWdAMj1hiQe6aECJDKt4I39nQJ+rrdhflGdAfH4YITwFYkCpnzcVqaRjQBsS91j6i2VAUTHO34QrZkC0WfW52utrQHsxlBPt6lRAinYVUn5CXEDF\u002frJ78txXQIhjXdxGEW1AyRr1EI0Pa0BJ10y+2Z1sQMH\u002fVrJj4mpAJJf\u002fkH6fbEA4fxMKEa9sQCU7NgLxs2xAwJXs2Aj2akA\u002fqfbpeOJqQCXkg57Nh2pApWYPtAJTJcBGJXUCmkgTwCtqMA3DRxPAp658ludBDsBRSZ2AJoIHwONTAIxnUA7A4KEo0CfsW0D1LXO6LM5YQMi1oWKct1NA32xzY3ooU0CLTwEwnhtTQLQCQ1a3GFNAP\u002fuRIjIsU0A3pics8dZSQBxaZDvfAVNAs14M5UQNU0CpTZzc74ZSQARz9Pi9B1tAtHvysFCjPMCkryDNWMQ6wHP5D+m39z7ACvmgZ7PaKMBHIF7XL9A+wNxj6UMXNBjACFqBIaurPkBxVdl3ReA7QCtqMA3DdzNA5QrvchGjUECXxcTm47xQQBObj2tD\u002fVBAKZZbWg01UUCqDrkZbsZQQBzr4jYallBA+b1Nf\u002fajUECbIOo+AL1QQHUCmggbnjVAwjQMHxGTKcARcAhVauYwwAA6zJcXgCDAhxbZzvcTHsAj2\u002fl+anRBwJNvtrkxlTHA4BCq1OyhHMDeAgmKHwM3wC5W1GAaNjXAa32R0JZjNcD6sx8pIos1wLOACdy6szjAgEi\u002ffR1YKsDGUE60q3ArwIp2FVJ+4izAgLxXrUyoK8CuZMdGIE4vwMVyS6shoTXAet\u002f42jMbQcALXvQVpJE9wK9fsBu2FT3AZHWr56SzQMCyYyMQr5dCwGk1JO6xqEjAJ\u002fc7FAU6FcA3jliLT2EpwDC7Jw8LdSfAQdmUK7xjMMDbaABvgUQbwKCmlq31ZSLA83aE04KXGMDzdoTTgpcYwFG9NbBVggnAAU2EDU9vDcDi5H6HogANwOmayTfbnA3AY5y\u002fCYWIFcCMvoI0Y9EQwA\u002fuztptFwHAIeo+AKmNAsDSUnk7wikAwIMXfQVphgbAijcyj\u002fzzVMBKJNHLKAhUwOi8xi5Rz1PACRaHM78EVMBWJvxSP89TwGSvd3+8K1DAdVQ1QdQvUMAF+kSeJC1QwAX6RJ4kLVDA1y\u002fYDdtYUMDnGJC93ldQwBBAahMn70vAQfZ698erLMB+PzVeuikvwDdxcr9DcSTAZRniWBdXJMCwPbMkQE0gwFFmg0wyEhjAVDpY\u002f+dgJMDWc9L7xmciwL1XrUz4JR\u002fA+ie4WFEjHcD6J7hYUSMdwPonuFhRIx3A+ie4WFEjHcAK3Lqbp1odwArcupunWh3A+ie4WFEjHcD6J7hYUSMdwJusUQ\u002fR2CvAYJM16iHqJcDhtOBFX\u002fElwEzg1t08tSbAVWr2QCuwKMCSkbOwp20twLq9pDFapynARnwnZr2oM8CpTZzc7wAywLFQa5p3lDDAYaHWNO\u002f4LcAo0CfyJMkrwCo6kst\u002fWCzA+wrSjEUzLsAXmus00hIBwHUfgNQmzivAZiyazk5mLMDkZrgBn98rwORmuAGf3yvARuuoaoKo6783pics8YDgv66BrRIsjvi\u002fE\u002fJBz2bV5L\u002f7V1aalILcv4rgfyvZsd2\u002f\u002fgkuVtSoPMDiBnx+GO1CwD6WPnRBhULA+iKhLefCQ8BMhA1Pr+BBwLPqc7UVJ0LAs+pztRUnQsCBW3fzVPtHwMbE5uPaGELA07zjFB0dQsAgtYmT+10+wD6RJ0nXVD7AehSuR+GiNcBORSqMLXQ5wEp7gy9MxjjAcm2oGOd3OMDU1LK1vsxNwGOXqN4aEEPAlA7W\u002fzlsMsB5WKg1zUMxwOBKdmwEqjHAMqzijcyTMsCJXkax3KI0wEXY8PRKcTTAroGtEizeM8AXghyUMBs0wDZxcr9DMTXAZkmAmlo2NcCt3XahuU41wDFaR1UT3DXAtHHEWnwCN8BXz0nvG08zwMxFfCdmZTPAwCZr1ENwQ8DvVSsTfgkzwGHgufdwATTALNSa5h0nEcAE54wo7Q0LwCmWW1oNSQvAPIOG\u002fgnuBMCLjuTyH9IFwK7wLhfx3QXA2gOtwJCVDMDrc7UV+4sHwJ88LNSahhnAWDSdnQzOGcDbSxqjdRQZwJTZIJOMXBnAmN2Th4UaRcBQATCeQYBrwGCTNeohu2vAYAK37uZceMBYqDXNu4x4wJAxdy0htXjACCC1iZN7JcA\u002fxty1hIwjwOWzPA\u002fuHibAbkxPWOKhJsBzEd+JWVczwFzOpbiqDDLAXM6luKoMMsDqBDQRNoQ1wPVnP1JEZjDA3IXmOo34RMAMJCh+jG1EwHUfgNQmMkXAADrMlxfMacAwDcNHxMRAwJD3qpUJL0DA0a5Cyk9KQ8AOiXssfchAwHl1jgHZR0DAbt3NUx3iPcBu3c1THVI\u002fwGiu00hLdT7A\u002fKTap+MBQ8Bns+pztT1IwCfVPh2PqUjAJ9U+HY+pSMAsms5OBjdHwB2s\u002f3OYa0jAgH106spTRsAj88gfDABHwIB9dOrK80bAQ8pPqn2sYsD6RJ4kXZhiwCwOZ3412mLAOH8TChGAIsB7Tnrf+KdiwFGDaRg+zWPAVRNE3QeUTsDdsG1RZotOwKCmlq31jU7A7ncoCvSJTcAL6lvmdKVMwAvqW+Z0pUzA1ouhnGhLRcB00vvG1yZGwHAlOzYCJUbAyM1wAz4\u002fEcDIzXADPj8XwHOdRloq7xTAPYOG\u002fglUgMD0N6EQAWaAwP5NKETAsIDAk1fnGBBMhcDbci7FVYiAwDIIrBzaaIDAKJtyhXd5NMBif9k9eTA0wCbkg57NejTAo5I6AU3ENcCO5PIf0m84wA65GW7ADzjAbeLkfociQ8DBOSNKe29AwIwtBDkobUDA5A8GnnunQcD2udqK\u002fd1AwBYTm49rd0DAGxcOhGThX8DG4cyv5jJgwF2PwvUohWTADHbDtkX6ZcDOx7WhYoVnwLCPTl35CWnAur2kMVrnYcA6XRYTmxhiwLYtymyQE2LAsyRATS3nYcDFxObj2ppfwHk7wmnBuV\u002fACCC1iZOtX8Dek4eFWqZuwMkCJnDrtm7AM4rlllYYb8Dj32dcOG1vwJ0ui4nNmm\u002fAgNQmTu4DWMB7\u002fN6mP2VXwInS3uALf1\u002fALSY2H9dVZMC9HeG04LhkwJw4ud+hSGLAUKp9Oh65g8BWDi2yHf2HwLU3+MKkBojAThB1H4D5h8D\u002fsnvy8EaIwGPuWkI+EIjAdNL7xlcSiMAGu2Hb4oOEwIsVNZgGd4TAJa\u002fOMaC8hMAAUps4+XGEwOp4zEClcYTApb3BFyZT478nNh\u002fXhoobwOxph78mCzLA3Xu45LgDKcDJk6RrJr8pwPYoXI\u002fCVSrA\u002fIwLB0Iad8DwxKwXQ\u002fpswPgZFw6EtGzAUn5S7dO1bMBSflLt081rwPgZFw6E5GzA+BkXDoTkbMBUqdkDrbRswKKXUSy3tWzAopdRLLeda8Cil1Est7VswKKXUSy3tWzAvvbMkgDVL8Ckqgmi7rZrwPac9L7xzTjA9n8O8+W9OsB8CoDxDMI6wDUpBd1eRkHA6LzGLlGNJsDovMYuUY0mwP7xXrUyFVHA6LzGLlGNJsDovMYuUY0mwOi8xi5RjSbA6LzGLlGNJsDovMYuUY0mwNszSwLUdCnA85Nqn46XJsDlCu9yEX8pwNszSwLUdCnAychZ2FNqcMAsZRniWO81wLEubqMBCW3ALPaX3ZOXasCRZiyazpRqwAvvchHflWrA","shape":"40, 18"},"zmax":776.86765,"zmid":0,"zmin":-776.86765,"type":"heatmap"},{"colorbar":{"tickfont":{"size":12},"title":{"side":"right","text":"Liquidation Size\u003cbr\u003e(BTC)"}},"colorscale":[[0,"rgba(220, 20, 60, 0.9)"],[0.25,"rgba(255, 69, 0, 0.85)"],[0.45,"rgba(255, 165, 0, 0.8)"],[0.5,"rgba(40, 40, 40, 0.2)"],[0.55,"rgba(46, 139, 87, 0.8)"],[0.75,"rgba(30, 144, 255, 0.85)"],[1,"rgba(138, 43, 226, 0.9)"]],"hovertemplate":"Time: %{x}\u003cbr\u003ePrice: $%{y:.2f}\u003cbr\u003eSize: %{z:.4f} BTC\u003cextra\u003e\u003c\u002fextra\u003e","x":["17:17","19:47","20:32","21:02","21:32","22:02","22:32","23:17","23:47","00:17","01:02","01:32","12:32","13:17","13:47","14:17","15:02","15:32"],"y":[57580.595,58801.384999999995,60022.175,61242.965,62463.755,63684.545,64905.335,66126.125,67346.91500000001,68567.705,69788.495,71009.285,72230.075,73450.86499999999,74671.655,75892.445,77113.235,78334.025,79554.815,80775.605,81996.395,83217.185,84437.975,85658.765,86879.555,88100.345,89321.13500000001,90541.925,91762.715,92983.505,94204.295,95425.085,96645.875,97866.66500000001,99087.455,100308.24500000001,101529.035,102749.82500000001,103970.615,105191.405],"z":{"dtype":"f8","bdata":"dzI4Sl5RRkBYBP9bya4+QOFASBYwXUBAzgGCOXo8PkCCc0aU9k48QNcv2A3bxj5AGA6EZAHrPkDGounsZHAsQA3gLZCgqCpA+z+H+fLyJkDa\u002fpWVJiU\u002fQDpdFhObe0BAwVHy6hwDJ0DOTgZHyWsmQOVhodY0zyRAPzVeuknMH0BnRGlv8AUxQHEgJAuYICRAfhghPNr4NED7XG3F\u002fuIyQJ1oVyHlBzNAVkPiHktfNUCrPldbsac2QF\u002fSGK2jIjJAT6+UZYgbMkAqHaz\u002fc3AzQF\u002fv\u002fniv+jNAza\u002fmAMEsNEBprtNIS200QIQqNXugHTRA5MKBkCwANUBq9kArMDQ4QCkF3V7SmDRA\u002fkP67eusSEDufD81XqoyQMAma9RDpDJAKzV7oBVQNEChEAGHUD00QBHfiVkvJjlAd\u002fNUh9xsOEBd+SzPg3s4QMwLsI9OjTxAgT6RJ0lHRUAYeO49XDZEQMPYQpCDWjZAr3d\u002fvFchQkAAHebLCyBCQAEwnkFDHzRAlPYGX5g0T0BuaTUk7u1NQCEf9GxWvVxAH9eGinEoV0ApyxDHuvJSQJV9VwT\u002fAzhAAKlNnNzfLEDnHafoSD40QAyreCPz+ClAJjYf14a6KUDABG7dzeMrQPpEniRd0zpAwvo\u002fh\u002fkyKUBQ3zKny2IqQG6GG\u002fD5IUBAYVRSJ6C5M0Asn+V5cK8xQM5r7BLV6zpA\u002fgkuVtSPYkDfFcH\u002fVmliQBVXlX1XZlhA1A5\u002fTdZ4XUABvAUSFC1ZQBCv6xfsJmNArhIsDmf6Q0AkEK\u002frF0QyQICfceFAmDtADDz3Hi5xNUAF3V7SGNUxQBxClZo9SDRAUvLqHAMSOkBOKETAIRQ6QGmM1lHVDDpA1lbsL7t3L0DPg7uzdqs6QAa7YduinD9AiBHCo40LNUBxcr9DUUg5QNO84xQdGTlAe737472aKUBIopdRLHcqQIRHG0esXTFAejarPldBWUCsi9toALVaQNf6IqEtI1lARloqb0fuWkDnGJC93n1bQIMvTKYKtFpAa5+OxwwkWUDX+iKhLSVZQGufjscMJFlADAIrhxZhW0DxS\u002f28qTBZQHe5iO\u002fEJllAuVM6WP83NUA9Sbpm8o0rQNI6qpogOitAGRwlr87XVUBoke18P6FIQA\u002fuztptBzBAGM+goX+wV0Bn0NA\u002fwRlXQL8OnDOiHldAisiwijf0VkBRZoNMMiJXQAtGJXUCKFdA7j1cctzrV0BrZcIv9blXQDvHgOz1JldAcXK\u002fQ1EoV0DPa+wS1UVXQGIQWDm02ldA81meB3ePSkANVMa\u002fz2heQJayDHGsXGZA0dA\u002fwcWuYEDM8+DurNFpQPfHe9XKlmJAXW3F\u002frKbMEDHaB1VTeAuQGXHRiBeJy5AL4uJzcedQED0Morllv4+QBnKiXYVwi1AnS6Lic0nKUCdhT3t8CcpQEiKyLCK1y1AgZVDi2wnLUCeXinLECcuQC4cCMkCdilA\u002freSHRs1V0DVeOkmMaxAQNGWcymumkFA8zy4O2snPkAe+YOB5xhTQDp6\u002fN6m5VVAgv+tZMfeN0Bu+rMfKeI3QGDl0CLbYTRAxFp8CoBZNEAuBDkoYc42QKTk1TkGXDRAW7G\u002f7J5MNUDKplzhXXY1QPkx5q4lXDRAvvbMkgCFNEDPMSB7vQs0QCcxCKwcCjRAhetRuB5ZQkBf0hitowJBQHxJY7SOij9ALzTXaaTFR0BIFjCBW69JQBFYObTIxlRAa0PFOH8rTUBh4Ln3cNFMQN\u002fDJcedbFRASp2AJsLeTkDPFDqvsc9MQN6rVib81k5AXI\u002fC9SgsTkAANbVsrRdOQFcm\u002fFI\u002fj05Ar84xIHuNTkC6awn5oIdOQJkqGJXUUU5AujE9YYl1UUCGWtO8485SQClcj8L1lFVAjq89sySAVEClTkATYXlWQKIL6lvmElJARvC\u002flewES0BeonprYIlSQBueXinLxEpAsVBrmnfISkCOQLyuX6xMQOjewyXHSUtABYvDmV+RSkDUvOMUHalKQBKI1\u002fULtkpA3SQGgZWrSkCHinH+JrhKQPw6cM6I7kpAhc5r7BK9SEBhpu1fWZVNQMXm49pQdUpA1XjpJjG0SUCCrRIsDsNJQEG3lzRGB09ALWACt+4GPUB1djI4Sj45QH4AUps4MTdAsoUgByVEN0BMN4lBYEU3QCVYHM787kdAWMUbmUfiRkCxpx3+mnBGQD86deWzzDVA+grSjEVLNUCg4GJFDc4zQCL99nXgxERAUBn\u002fPmPFcUAF3V7SGAdxQOnUlc\u002fy1XBArrt5qkPfYUBWgsXhzJthQM0eaAWGjDpAKSLDKt4GVkB7ZkmAmvJPQHpwd9Zuh09An3HhQEh+T0DejnBa8I5PQJ7vp8ZL5VBAE4PAyqHHUUDcnbXbLnZRQHkGDf0TMlBAZFjFG5krUkDqBDQRNoxSQIhGdxA7R0pAFvvL7skPTEBivrwA+\u002f5SQOAQqtTsUUhAh8Q9lj4YaUDPg7uzdmdrQPIMGvoninNAhhvw+WE0TEDJHww89\u002fJVQK67eapDi2pA6YL6ljlPakD3XRH8b0NqQID2I0Vko2ZAdF5jl6igZkDA54cRwi9PQKomiLoP1lZAeUDZlCssV0Drbp7qkAdXQJgXYB+dAldAYjJVMCqbVEByM9yAz9tXQILn3sMlcV5ARuuoaoKGV0ATSfQyintUQAjm6PF7o1VA0jqqmqAfcEDhC5OpguNuQIBIv30dQGBA0nR2MjhwYEA8GRwlr\u002fRYQNV46SYxKl9A5KWbxCBiX0Dqz36kiHJvQCUjZ2FPH3BA8piByvg4a0DgZ1w4ENBuQEht4uR+uG9A8kHPZtXrVECq8dJNYjBJQBYYsrrVnVVAf0i\u002ffR2CW0DQCgxZ3U5cQLPSpBR0V01AtwvNdRqpT0DmIr4Ts4ZSQMR8eQH2ZUhAEmvxKQA2R0Av3SQGgRVVQFExzt+Erk1AUUmdgCYOSkDsbp7qkLlRQMWsF0M5pVFAE7h1N09HWkBVNUHUfVJRQIj58gLsN1FATWcng6PfYUCyS1RvDXZZQDRLAtTUXFJAUAEwnkFDWkD5vU1\u002f9idRQGJKJNHLpWRAjBAebRwPXkBHA3gLJBxaQLDmAMEcsVpA8kHPZtWbW0ADYDyDhr5aQCHlJ9U+rVpAyHvVyoRdXED5D+m3r8NWQBXj\u002fE0o2lZASFD8GHOpVkD9h\u002fTb18lZQOQs7GmHSV1Aa0jcY+maYUDL2xFOC5llQNmUK7xLXnFADyibcoW8b0ATLA5nfpZyQMRafAqAsG1AAmVTrvDgXUAEHEKVmoJjQMcRa\u002fEpj2NApmH4iJiOY0BQ5EnSNRtgQG9HOC14dGNAC7WmecdzY0Bi83FtqA9kQL4Ts14MUmRAU8vW+iLpYkA3VIzzNzZiQEpBt5c0nWBAyOpWz0mhZECDaRg+ImNkQJbFxObjpWlAFMstrYYQa0AOYmcKnaFpQCNKe4Mv+2NA+grSjEU7QkDcLjTXafBCQLByaJHtHD1Akst\u002fSL+lPEA6zJcXYINKQN8Vwf9WkjtAQmDl0CKbO0A5fxMKERg7QJRliGNdPDlAD7QCQ1ZHPkBl3xXB\u002fx5CQCMtlbcjbDxAPE7RkVwveEA6kst\u002fyDF5QPyMCwdCCXBA0QoMWd1jb0BBvK5fsAZwQFVq9kCrrnpAkbjH0oeGU0BGfCdmvXpSQFrd6jnpy1VA1hwgmKNlUkDSUnk7ws9TQEz9vKlIUVNARG6GG\u002fCPUkDlfoeiQKtSQHDwhclUpVJAR8mrcwwqU0AgQfFjzI9TQJ8CYDyDmlNAdc3km20OZUBkARO4dQ5lQECp9ul4\u002fmRAofMau0RVZUD1LXO6LDtgQLCPTl35w2dAAMYzaOhVbkDLLa2GRKJwQIhGdxA7omdAv2A3bFtzZ0BNofMau4hnQFrTvOMUFGlAX5hMFYyKZ0D8kSIyrINnQJM6AU2EfWdAMj1hiQe6aECJDKt4I39nQJ+rrdhflGdAfH4YITwFYkCpnzcVqaRjQBsS91j6i2VAUTHO34QrZkC0WfW52utrQHsxlBPt6lRAinYVUn5CXEDF\u002frJ78txXQIhjXdxGEW1AyRr1EI0Pa0BJ10y+2Z1sQMH\u002fVrJj4mpAJJf\u002fkH6fbEA4fxMKEa9sQCU7NgLxs2xAwJXs2Aj2akA\u002fqfbpeOJqQCXkg57Nh2pApWYPtAJTJcBGJXUCmkgTwCtqMA3DRxPAp658ludBDsBRSZ2AJoIHwONTAIxnUA7A4KEo0CfsW0D1LXO6LM5YQMi1oWKct1NA32xzY3ooU0CLTwEwnhtTQLQCQ1a3GFNAP\u002fuRIjIsU0A3pics8dZSQBxaZDvfAVNAs14M5UQNU0CpTZzc74ZSQARz9Pi9B1tAtHvysFCjPMCkryDNWMQ6wHP5D+m39z7ACvmgZ7PaKMBHIF7XL9A+wNxj6UMXNBjACFqBIaurPkBxVdl3ReA7QCtqMA3DdzNA5QrvchGjUECXxcTm47xQQBObj2tD\u002fVBAKZZbWg01UUCqDrkZbsZQQBzr4jYallBA+b1Nf\u002fajUECbIOo+AL1QQHUCmggbnjVAwjQMHxGTKcARcAhVauYwwAA6zJcXgCDAhxbZzvcTHsAj2\u002fl+anRBwJNvtrkxlTHA4BCq1OyhHMDeAgmKHwM3wC5W1GAaNjXAa32R0JZjNcD6sx8pIos1wLOACdy6szjAgEi\u002ffR1YKsDGUE60q3ArwIp2FVJ+4izAgLxXrUyoK8CuZMdGIE4vwMVyS6shoTXAet\u002f42jMbQcALXvQVpJE9wK9fsBu2FT3AZHWr56SzQMCyYyMQr5dCwGk1JO6xqEjAJ\u002fc7FAU6FcA3jliLT2EpwDC7Jw8LdSfAQdmUK7xjMMDbaABvgUQbwKCmlq31ZSLA83aE04KXGMDzdoTTgpcYwFG9NbBVggnAAU2EDU9vDcDi5H6HogANwOmayTfbnA3AY5y\u002fCYWIFcCMvoI0Y9EQwA\u002fuztptFwHAIeo+AKmNAsDSUnk7wikAwIMXfQVphgbAijcyj\u002fzzVMBKJNHLKAhUwOi8xi5Rz1PACRaHM78EVMBWJvxSP89TwGSvd3+8K1DAdVQ1QdQvUMAF+kSeJC1QwAX6RJ4kLVDA1y\u002fYDdtYUMDnGJC93ldQwBBAahMn70vAQfZ698erLMB+PzVeuikvwDdxcr9DcSTAZRniWBdXJMCwPbMkQE0gwFFmg0wyEhjAVDpY\u002f+dgJMDWc9L7xmciwL1XrUz4JR\u002fA+ie4WFEjHcD6J7hYUSMdwPonuFhRIx3A+ie4WFEjHcAK3Lqbp1odwArcupunWh3A+ie4WFEjHcD6J7hYUSMdwJusUQ\u002fR2CvAYJM16iHqJcDhtOBFX\u002fElwEzg1t08tSbAVWr2QCuwKMCSkbOwp20twLq9pDFapynARnwnZr2oM8CpTZzc7wAywLFQa5p3lDDAYaHWNO\u002f4LcAo0CfyJMkrwCo6kst\u002fWCzA+wrSjEUzLsAXmus00hIBwHUfgNQmzivAZiyazk5mLMDkZrgBn98rwORmuAGf3yvARuuoaoKo6783pics8YDgv66BrRIsjvi\u002fE\u002fJBz2bV5L\u002f7V1aalILcv4rgfyvZsd2\u002f\u002fgkuVtSoPMDiBnx+GO1CwD6WPnRBhULA+iKhLefCQ8BMhA1Pr+BBwLPqc7UVJ0LAs+pztRUnQsCBW3fzVPtHwMbE5uPaGELA07zjFB0dQsAgtYmT+10+wD6RJ0nXVD7AehSuR+GiNcBORSqMLXQ5wEp7gy9MxjjAcm2oGOd3OMDU1LK1vsxNwGOXqN4aEEPAlA7W\u002fzlsMsB5WKg1zUMxwOBKdmwEqjHAMqzijcyTMsCJXkax3KI0wEXY8PRKcTTAroGtEizeM8AXghyUMBs0wDZxcr9DMTXAZkmAmlo2NcCt3XahuU41wDFaR1UT3DXAtHHEWnwCN8BXz0nvG08zwMxFfCdmZTPAwCZr1ENwQ8DvVSsTfgkzwGHgufdwATTALNSa5h0nEcAE54wo7Q0LwCmWW1oNSQvAPIOG\u002fgnuBMCLjuTyH9IFwK7wLhfx3QXA2gOtwJCVDMDrc7UV+4sHwJ88LNSahhnAWDSdnQzOGcDbSxqjdRQZwJTZIJOMXBnAmN2Th4UaRcBQATCeQYBrwGCTNeohu2vAYAK37uZceMBYqDXNu4x4wJAxdy0htXjACCC1iZN7JcA\u002fxty1hIwjwOWzPA\u002fuHibAbkxPWOKhJsBzEd+JWVczwFzOpbiqDDLAXM6luKoMMsDqBDQRNoQ1wPVnP1JEZjDA3IXmOo34RMAMJCh+jG1EwHUfgNQmMkXAADrMlxfMacAwDcNHxMRAwJD3qpUJL0DA0a5Cyk9KQ8AOiXssfchAwHl1jgHZR0DAbt3NUx3iPcBu3c1THVI\u002fwGiu00hLdT7A\u002fKTap+MBQ8Bns+pztT1IwCfVPh2PqUjAJ9U+HY+pSMAsms5OBjdHwB2s\u002f3OYa0jAgH106spTRsAj88gfDABHwIB9dOrK80bAQ8pPqn2sYsD6RJ4kXZhiwCwOZ3412mLAOH8TChGAIsB7Tnrf+KdiwFGDaRg+zWPAVRNE3QeUTsDdsG1RZotOwKCmlq31jU7A7ncoCvSJTcAL6lvmdKVMwAvqW+Z0pUzA1ouhnGhLRcB00vvG1yZGwHAlOzYCJUbAyM1wAz4\u002fEcDIzXADPj8XwHOdRloq7xTAPYOG\u002fglUgMD0N6EQAWaAwP5NKETAsIDAk1fnGBBMhcDbci7FVYiAwDIIrBzaaIDAKJtyhXd5NMBif9k9eTA0wCbkg57NejTAo5I6AU3ENcCO5PIf0m84wA65GW7ADzjAbeLkfociQ8DBOSNKe29AwIwtBDkobUDA5A8GnnunQcD2udqK\u002fd1AwBYTm49rd0DAGxcOhGThX8DG4cyv5jJgwF2PwvUohWTADHbDtkX6ZcDOx7WhYoVnwLCPTl35CWnAur2kMVrnYcA6XRYTmxhiwLYtymyQE2LAsyRATS3nYcDFxObj2ppfwHk7wmnBuV\u002fACCC1iZOtX8Dek4eFWqZuwMkCJnDrtm7AM4rlllYYb8Dj32dcOG1vwJ0ui4nNmm\u002fAgNQmTu4DWMB7\u002fN6mP2VXwInS3uALf1\u002fALSY2H9dVZMC9HeG04LhkwJw4ud+hSGLAUKp9Oh65g8BWDi2yHf2HwLU3+MKkBojAThB1H4D5h8D\u002fsnvy8EaIwGPuWkI+EIjAdNL7xlcSiMAGu2Hb4oOEwIsVNZgGd4TAJa\u002fOMaC8hMAAUps4+XGEwOp4zEClcYTApb3BFyZT478nNh\u002fXhoobwOxph78mCzLA3Xu45LgDKcDJk6RrJr8pwPYoXI\u002fCVSrA\u002fIwLB0Iad8DwxKwXQ\u002fpswPgZFw6EtGzAUn5S7dO1bMBSflLt081rwPgZFw6E5GzA+BkXDoTkbMBUqdkDrbRswKKXUSy3tWzAopdRLLeda8Cil1Est7VswKKXUSy3tWzAvvbMkgDVL8Ckqgmi7rZrwPac9L7xzTjA9n8O8+W9OsB8CoDxDMI6wDUpBd1eRkHA6LzGLlGNJsDovMYuUY0mwP7xXrUyFVHA6LzGLlGNJsDovMYuUY0mwOi8xi5RjSbA6LzGLlGNJsDovMYuUY0mwNszSwLUdCnA85Nqn46XJsDlCu9yEX8pwNszSwLUdCnAychZ2FNqcMAsZRniWO81wLEubqMBCW3ALPaX3ZOXasCRZiyazpRqwAvvchHflWrA","shape":"40, 18"},"zmax":776.86765,"zmid":0,"zmin":-776.86765,"type":"heatmap"},{"hovertemplate":"Time: %{x}\u003cbr\u003ePrice: $%{y:.2f}\u003cextra\u003e\u003c\u002fextra\u003e","line":{"color":"rgb(255, 215, 0)","width":3},"mode":"lines","name":"Price","x":["17:17","19:47","20:32","21:02","21:32","22:02","22:32","23:17","23:47","00:17","01:02","01:32","12:32","13:17","13:47","14:17","15:02","15:32"],"y":{"dtype":"f8","bdata":"AAAAALgA9UAAAAAAuAD1QAAAAAC4APVAAAAAALgA9UAAAAAAuAD1QAAAAAC4APVAq6qqqloC9UBVVVVVZQT1QAAAAADwAPVAAAAAAGD59EAAAAAAAPz0QKuqqqoKAfVAq6qqqkpC9EAAAAAA8Cb0QFVVVVUVMvRAq6qqqspK9ECrqqqq6jf0QAAAAAAQDPRA"},"type":"scatter"}],                        {"template":{"data":{"barpolar":[{"marker":{"line":{"color":"rgb(17,17,17)","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"bar":[{"error_x":{"color":"#f2f5fa"},"error_y":{"color":"#f2f5fa"},"marker":{"line":{"color":"rgb(17,17,17)","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"carpet":[{"aaxis":{"endlinecolor":"#A2B1C6","gridcolor":"#506784","linecolor":"#506784","minorgridcolor":"#506784","startlinecolor":"#A2B1C6"},"baxis":{"endlinecolor":"#A2B1C6","gridcolor":"#506784","linecolor":"#506784","minorgridcolor":"#506784","startlinecolor":"#A2B1C6"},"type":"carpet"}],"choropleth":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"choropleth"}],"contourcarpet":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"contourcarpet"}],"contour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"contour"}],"heatmap":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"heatmap"}],"histogram2dcontour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2dcontour"}],"histogram2d":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2d"}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"mesh3d":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"mesh3d"}],"parcoords":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"parcoords"}],"pie":[{"automargin":true,"type":"pie"}],"scatter3d":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatter3d"}],"scattercarpet":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattercarpet"}],"scattergeo":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergeo"}],"scattergl":[{"marker":{"line":{"color":"#283442"}},"type":"scattergl"}],"scattermapbox":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattermapbox"}],"scattermap":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattermap"}],"scatterpolargl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolargl"}],"scatterpolar":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolar"}],"scatter":[{"marker":{"line":{"color":"#283442"}},"type":"scatter"}],"scatterternary":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterternary"}],"surface":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"surface"}],"table":[{"cells":{"fill":{"color":"#506784"},"line":{"color":"rgb(17,17,17)"}},"header":{"fill":{"color":"#2a3f5f"},"line":{"color":"rgb(17,17,17)"}},"type":"table"}]},"layout":{"annotationdefaults":{"arrowcolor":"#f2f5fa","arrowhead":0,"arrowwidth":1},"autotypenumbers":"strict","coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]],"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]},"colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#f2f5fa"},"geo":{"bgcolor":"rgb(17,17,17)","lakecolor":"rgb(17,17,17)","landcolor":"rgb(17,17,17)","showlakes":true,"showland":true,"subunitcolor":"#506784"},"hoverlabel":{"align":"left"},"hovermode":"closest","mapbox":{"style":"dark"},"paper_bgcolor":"rgb(17,17,17)","plot_bgcolor":"rgb(17,17,17)","polar":{"angularaxis":{"gridcolor":"#506784","linecolor":"#506784","ticks":""},"bgcolor":"rgb(17,17,17)","radialaxis":{"gridcolor":"#506784","linecolor":"#506784","ticks":""}},"scene":{"xaxis":{"backgroundcolor":"rgb(17,17,17)","gridcolor":"#506784","gridwidth":2,"linecolor":"#506784","showbackground":true,"ticks":"","zerolinecolor":"#C8D4E3"},"yaxis":{"backgroundcolor":"rgb(17,17,17)","gridcolor":"#506784","gridwidth":2,"linecolor":"#506784","showbackground":true,"ticks":"","zerolinecolor":"#C8D4E3"},"zaxis":{"backgroundcolor":"rgb(17,17,17)","gridcolor":"#506784","gridwidth":2,"linecolor":"#506784","showbackground":true,"ticks":"","zerolinecolor":"#C8D4E3"}},"shapedefaults":{"line":{"color":"#f2f5fa"}},"sliderdefaults":{"bgcolor":"#C8D4E3","bordercolor":"rgb(17,17,17)","borderwidth":1,"tickwidth":0},"ternary":{"aaxis":{"gridcolor":"#506784","linecolor":"#506784","ticks":""},"baxis":{"gridcolor":"#506784","linecolor":"#506784","ticks":""},"bgcolor":"rgb(17,17,17)","caxis":{"gridcolor":"#506784","linecolor":"#506784","ticks":""}},"title":{"x":0.05},"updatemenudefaults":{"bgcolor":"#506784","borderwidth":0},"xaxis":{"automargin":true,"gridcolor":"#283442","linecolor":"#506784","ticks":"","title":{"standoff":15},"zerolinecolor":"#283442","zerolinewidth":2},"yaxis":{"automargin":true,"gridcolor":"#283442","linecolor":"#506784","ticks":"","title":{"standoff":15},"zerolinecolor":"#283442","zerolinewidth":2}}},"xaxis":{"anchor":"y","domain":[0.0,1.0],"title":{"text":"Time"},"tickfont":{"size":14},"tickangle":-45,"showgrid":true,"gridwidth":1,"gridcolor":"rgba(80, 80, 100, 0.2)"},"yaxis":{"anchor":"x","domain":[0.0,1.0],"title":{"text":"Liquidation Price ($)"},"tickfont":{"size":14},"type":"linear","tickprefix":"$","tickformat":",","showgrid":true,"gridwidth":1,"gridcolor":"rgba(80, 80, 100, 0.2)"},"title":{"text":"BTC Liquidation Heatmap"},"margin":{"l":80,"r":80,"t":100,"b":80},"font":{"color":"white"},"height":800,"width":1200,"plot_bgcolor":"rgba(25, 25, 35, 1)","paper_bgcolor":"rgba(20, 20, 30, 1)"},                        {"responsive": true}                    )                };            </script>        </div>
+            
+    <div style="margin-top: 50px; background-color: #1e1e1e; color: white; padding: 20px; border-radius: 5px;">
+        <h2 style="margin-bottom: 20px;">Notable Positions (Top 50 by Notional Value - Last Hour, Unique Addresses)</h2>
+        <table style="width: 100%; border-collapse: collapse;">
+            <thead>
+                <tr style="border-bottom: 1px solid #444;">
+                    <th style="padding: 8px; text-align: left;">Type</th>
+                    <th style="padding: 8px; text-align: right;">Size ($BTC)</th>
+                    <th style="padding: 8px; text-align: right;">Notional Value ($)</th>
+                    <th style="padding: 8px; text-align: right;">Liquidation Price ($)</th>
+                    <th style="padding: 8px; text-align: left;">Address</th>
+                </tr>
+            </thead>
+            <tbody>
+    
+                <tr style="border-bottom: 1px solid #333;">
+                    <td style="padding: 8px; color: #F68A8E;">SHORT</td>
+                    <td style="padding: 8px; text-align: right;">512.6568</td>
+                    <td style="padding: 8px; text-align: right;">$50,615,618.06</td>
+                    <td style="padding: 8px; text-align: right;">$98,731.98</td>
+                    <td style="padding: 8px; text-align: left; font-family: monospace;">0x5d2f4460ac3514ada79f5d9838916e508ab39bb7</td>
+                </tr>
+        
+                <tr style="border-bottom: 1px solid #333;">
+                    <td style="padding: 8px; color: #F68A8E;">SHORT</td>
+                    <td style="padding: 8px; text-align: right;">202.4590</td>
+                    <td style="padding: 8px; text-align: right;">$21,255,617.18</td>
+                    <td style="padding: 8px; text-align: right;">$104,987.27</td>
+                    <td style="padding: 8px; text-align: left; font-family: monospace;">0x153c8444380512cabdc34f6cea09c322e14e319a</td>
+                </tr>
+        
+                <tr style="border-bottom: 1px solid #333;">
+                    <td style="padding: 8px; color: #F68A8E;">SHORT</td>
+                    <td style="padding: 8px; text-align: right;">180.3084</td>
+                    <td style="padding: 8px; text-align: right;">$17,140,858.18</td>
+                    <td style="padding: 8px; text-align: right;">$95,064.09</td>
+                    <td style="padding: 8px; text-align: left; font-family: monospace;">0x880ac484a1743862989a441d6d867238c7aa311c</td>
+                </tr>
+        
+                <tr style="border-bottom: 1px solid #333;">
+                    <td style="padding: 8px; color: #F68A8E;">SHORT</td>
+                    <td style="padding: 8px; text-align: right;">167.0000</td>
+                    <td style="padding: 8px; text-align: right;">$15,845,578.94</td>
+                    <td style="padding: 8px; text-align: right;">$94,883.71</td>
+                    <td style="padding: 8px; text-align: left; font-family: monospace;">0x4a96036fb1529561fa3eeeb2781fad2d4f25500e</td>
+                </tr>
+        
+                <tr style="border-bottom: 1px solid #333;">
+                    <td style="padding: 8px; color: #F68A8E;">SHORT</td>
+                    <td style="padding: 8px; text-align: right;">140.0000</td>
+                    <td style="padding: 8px; text-align: right;">$13,669,950.43</td>
+                    <td style="padding: 8px; text-align: right;">$97,642.50</td>
+                    <td style="padding: 8px; text-align: left; font-family: monospace;">0x7a6d5fc57f6906f337c48fe2763c3a501304f79c</td>
+                </tr>
+        
+                <tr style="border-bottom: 1px solid #333;">
+                    <td style="padding: 8px; color: #8EF688;">LONG</td>
+                    <td style="padding: 8px; text-align: right;">138.5034</td>
+                    <td style="padding: 8px; text-align: right;">$10,948,178.13</td>
+                    <td style="padding: 8px; text-align: right;">$79,046.29</td>
+                    <td style="padding: 8px; text-align: left; font-family: monospace;">0x9ab1c356e6af86361446497fce954b3cdf940206</td>
+                </tr>
+        
+                <tr style="border-bottom: 1px solid #333;">
+                    <td style="padding: 8px; color: #8EF688;">LONG</td>
+                    <td style="padding: 8px; text-align: right;">150.0000</td>
+                    <td style="padding: 8px; text-align: right;">$10,924,042.36</td>
+                    <td style="padding: 8px; text-align: right;">$72,826.95</td>
+                    <td style="padding: 8px; text-align: left; font-family: monospace;">0xbf732ea04197942783e34730ed6e0f6099575d58</td>
+                </tr>
+        
+                <tr style="border-bottom: 1px solid #333;">
+                    <td style="padding: 8px; color: #F68A8E;">SHORT</td>
+                    <td style="padding: 8px; text-align: right;">101.9000</td>
+                    <td style="padding: 8px; text-align: right;">$10,159,929.66</td>
+                    <td style="padding: 8px; text-align: right;">$99,704.90</td>
+                    <td style="padding: 8px; text-align: left; font-family: monospace;">0xb4a04f60522a539caa55e9ce74c9bb3e6f2253f0</td>
+                </tr>
+        
+                <tr style="border-bottom: 1px solid #333;">
+                    <td style="padding: 8px; color: #8EF688;">LONG</td>
+                    <td style="padding: 8px; text-align: right;">121.4184</td>
+                    <td style="padding: 8px; text-align: right;">$8,709,853.14</td>
+                    <td style="padding: 8px; text-align: right;">$71,734.21</td>
+                    <td style="padding: 8px; text-align: left; font-family: monospace;">0x469e9a7f624b04c24f0e64edf8d8a277e6bf58a5</td>
+                </tr>
+        
+                <tr style="border-bottom: 1px solid #333;">
+                    <td style="padding: 8px; color: #F68A8E;">SHORT</td>
+                    <td style="padding: 8px; text-align: right;">68.2163</td>
+                    <td style="padding: 8px; text-align: right;">$6,926,940.09</td>
+                    <td style="padding: 8px; text-align: right;">$101,543.78</td>
+                    <td style="padding: 8px; text-align: left; font-family: monospace;">0xf58b673c1633ccef0ac58263cdc95ed80f817fc7</td>
+                </tr>
+        
+                <tr style="border-bottom: 1px solid #333;">
+                    <td style="padding: 8px; color: #8EF688;">LONG</td>
+                    <td style="padding: 8px; text-align: right;">84.8851</td>
+                    <td style="padding: 8px; text-align: right;">$6,886,909.80</td>
+                    <td style="padding: 8px; text-align: right;">$81,132.10</td>
+                    <td style="padding: 8px; text-align: left; font-family: monospace;">0xed1dbd0037cd7ec58e0b7962f902eab5ca808346</td>
+                </tr>
+        
+                <tr style="border-bottom: 1px solid #333;">
+                    <td style="padding: 8px; color: #8EF688;">LONG</td>
+                    <td style="padding: 8px; text-align: right;">82.7163</td>
+                    <td style="padding: 8px; text-align: right;">$6,595,996.71</td>
+                    <td style="padding: 8px; text-align: right;">$79,742.44</td>
+                    <td style="padding: 8px; text-align: left; font-family: monospace;">0x00c511ab1b583f4efab3608d0897d377c4de47a6</td>
+                </tr>
+        
+                <tr style="border-bottom: 1px solid #333;">
+                    <td style="padding: 8px; color: #8EF688;">LONG</td>
+                    <td style="padding: 8px; text-align: right;">77.5000</td>
+                    <td style="padding: 8px; text-align: right;">$6,019,878.11</td>
+                    <td style="padding: 8px; text-align: right;">$77,675.85</td>
+                    <td style="padding: 8px; text-align: left; font-family: monospace;">0x2f8c0b778c98489cb21cddf5199ea06b252c4e34</td>
+                </tr>
+        
+                <tr style="border-bottom: 1px solid #333;">
+                    <td style="padding: 8px; color: #8EF688;">LONG</td>
+                    <td style="padding: 8px; text-align: right;">70.0000</td>
+                    <td style="padding: 8px; text-align: right;">$5,591,687.70</td>
+                    <td style="padding: 8px; text-align: right;">$79,881.25</td>
+                    <td style="padding: 8px; text-align: left; font-family: monospace;">0x896a94f15149e84bc1a76023fb28779c90587ecb</td>
+                </tr>
+        
+                <tr style="border-bottom: 1px solid #333;">
+                    <td style="padding: 8px; color: #8EF688;">LONG</td>
+                    <td style="padding: 8px; text-align: right;">61.5000</td>
+                    <td style="padding: 8px; text-align: right;">$4,839,584.37</td>
+                    <td style="padding: 8px; text-align: right;">$78,692.40</td>
+                    <td style="padding: 8px; text-align: left; font-family: monospace;">0x56e928ebe4aeaf35caa3fa8afc2f6777f8351f94</td>
+                </tr>
+        
+                <tr style="border-bottom: 1px solid #333;">
+                    <td style="padding: 8px; color: #8EF688;">LONG</td>
+                    <td style="padding: 8px; text-align: right;">55.3224</td>
+                    <td style="padding: 8px; text-align: right;">$4,327,916.14</td>
+                    <td style="padding: 8px; text-align: right;">$78,230.75</td>
+                    <td style="padding: 8px; text-align: left; font-family: monospace;">0xd174911340dd1e86eb47bb7d5a8b057688aaf33a</td>
+                </tr>
+        
+                <tr style="border-bottom: 1px solid #333;">
+                    <td style="padding: 8px; color: #8EF688;">LONG</td>
+                    <td style="padding: 8px; text-align: right;">52.6801</td>
+                    <td style="padding: 8px; text-align: right;">$4,249,601.56</td>
+                    <td style="padding: 8px; text-align: right;">$80,668.06</td>
+                    <td style="padding: 8px; text-align: left; font-family: monospace;">0x2ca024339a0af30f5fb03c8d06963fa6c64f8c1c</td>
+                </tr>
+        
+                <tr style="border-bottom: 1px solid #333;">
+                    <td style="padding: 8px; color: #8EF688;">LONG</td>
+                    <td style="padding: 8px; text-align: right;">50.0000</td>
+                    <td style="padding: 8px; text-align: right;">$4,004,840.29</td>
+                    <td style="padding: 8px; text-align: right;">$80,096.81</td>
+                    <td style="padding: 8px; text-align: left; font-family: monospace;">0x25c15aa63832bf86542647511347a9753f852722</td>
+                </tr>
+        
+                <tr style="border-bottom: 1px solid #333;">
+                    <td style="padding: 8px; color: #8EF688;">LONG</td>
+                    <td style="padding: 8px; text-align: right;">60.1810</td>
+                    <td style="padding: 8px; text-align: right;">$3,939,377.67</td>
+                    <td style="padding: 8px; text-align: right;">$65,458.82</td>
+                    <td style="padding: 8px; text-align: left; font-family: monospace;">0x7e70ff1e17cf415e33dd5df299495e66732f9c4f</td>
+                </tr>
+        
+                <tr style="border-bottom: 1px solid #333;">
+                    <td style="padding: 8px; color: #8EF688;">LONG</td>
+                    <td style="padding: 8px; text-align: right;">63.7484</td>
+                    <td style="padding: 8px; text-align: right;">$3,895,982.13</td>
+                    <td style="padding: 8px; text-align: right;">$61,114.94</td>
+                    <td style="padding: 8px; text-align: left; font-family: monospace;">0xd45ddb475b20ec2138ee0b316ef2896851390422</td>
+                </tr>
+        
+                <tr style="border-bottom: 1px solid #333;">
+                    <td style="padding: 8px; color: #8EF688;">LONG</td>
+                    <td style="padding: 8px; text-align: right;">45.2766</td>
+                    <td style="padding: 8px; text-align: right;">$3,484,043.64</td>
+                    <td style="padding: 8px; text-align: right;">$76,950.17</td>
+                    <td style="padding: 8px; text-align: left; font-family: monospace;">0xfdc64a4c2bd26c65084ac76432a8d411f7529db4</td>
+                </tr>
+        
+                <tr style="border-bottom: 1px solid #333;">
+                    <td style="padding: 8px; color: #F68A8E;">SHORT</td>
+                    <td style="padding: 8px; text-align: right;">30.1049</td>
+                    <td style="padding: 8px; text-align: right;">$3,065,315.05</td>
+                    <td style="padding: 8px; text-align: right;">$101,821.24</td>
+                    <td style="padding: 8px; text-align: left; font-family: monospace;">0x9dea4d13ac1c469b7fe9049d43835df1be143ec0</td>
+                </tr>
+        
+                <tr style="border-bottom: 1px solid #333;">
+                    <td style="padding: 8px; color: #8EF688;">LONG</td>
+                    <td style="padding: 8px; text-align: right;">40.0000</td>
+                    <td style="padding: 8px; text-align: right;">$3,043,930.51</td>
+                    <td style="padding: 8px; text-align: right;">$76,098.26</td>
+                    <td style="padding: 8px; text-align: left; font-family: monospace;">0xa4dedda59f2908b92ae192cfd494839373bcb3c4</td>
+                </tr>
+        
+                <tr style="border-bottom: 1px solid #333;">
+                    <td style="padding: 8px; color: #8EF688;">LONG</td>
+                    <td style="padding: 8px; text-align: right;">45.6574</td>
+                    <td style="padding: 8px; text-align: right;">$2,998,216.33</td>
+                    <td style="padding: 8px; text-align: right;">$65,667.65</td>
+                    <td style="padding: 8px; text-align: left; font-family: monospace;">0xd8b07bc1bc3bae553bca5e94e99935dc12df24ff</td>
+                </tr>
+        
+                <tr style="border-bottom: 1px solid #333;">
+                    <td style="padding: 8px; color: #8EF688;">LONG</td>
+                    <td style="padding: 8px; text-align: right;">40.0000</td>
+                    <td style="padding: 8px; text-align: right;">$2,895,349.57</td>
+                    <td style="padding: 8px; text-align: right;">$72,383.74</td>
+                    <td style="padding: 8px; text-align: left; font-family: monospace;">0x21813dd67fecb6dffb3f74bb35c13336bc99a519</td>
+                </tr>
+        
+                <tr style="border-bottom: 1px solid #333;">
+                    <td style="padding: 8px; color: #8EF688;">LONG</td>
+                    <td style="padding: 8px; text-align: right;">35.0000</td>
+                    <td style="padding: 8px; text-align: right;">$2,687,748.46</td>
+                    <td style="padding: 8px; text-align: right;">$76,792.81</td>
+                    <td style="padding: 8px; text-align: left; font-family: monospace;">0x8463d6ffcbfb56bf20ab2e1111f9a0e8359533f2</td>
+                </tr>
+        
+                <tr style="border-bottom: 1px solid #333;">
+                    <td style="padding: 8px; color: #8EF688;">LONG</td>
+                    <td style="padding: 8px; text-align: right;">32.1557</td>
+                    <td style="padding: 8px; text-align: right;">$2,444,012.15</td>
+                    <td style="padding: 8px; text-align: right;">$76,005.66</td>
+                    <td style="padding: 8px; text-align: left; font-family: monospace;">0xc79a87ee20ae43ce40c75d0489ebabe06a267315</td>
+                </tr>
+        
+                <tr style="border-bottom: 1px solid #333;">
+                    <td style="padding: 8px; color: #F68A8E;">SHORT</td>
+                    <td style="padding: 8px; text-align: right;">23.4506</td>
+                    <td style="padding: 8px; text-align: right;">$2,267,439.39</td>
+                    <td style="padding: 8px; text-align: right;">$96,690.04</td>
+                    <td style="padding: 8px; text-align: left; font-family: monospace;">0x13261649e6aac1b1c24988706bdf84c7688f53b8</td>
+                </tr>
+        
+                <tr style="border-bottom: 1px solid #333;">
+                    <td style="padding: 8px; color: #8EF688;">LONG</td>
+                    <td style="padding: 8px; text-align: right;">33.0000</td>
+                    <td style="padding: 8px; text-align: right;">$2,212,583.29</td>
+                    <td style="padding: 8px; text-align: right;">$67,047.98</td>
+                    <td style="padding: 8px; text-align: left; font-family: monospace;">0x668cec05549105e5b05bcc779a43186735d7ea2e</td>
+                </tr>
+        
+                <tr style="border-bottom: 1px solid #333;">
+                    <td style="padding: 8px; color: #8EF688;">LONG</td>
+                    <td style="padding: 8px; text-align: right;">26.6001</td>
+                    <td style="padding: 8px; text-align: right;">$2,175,282.03</td>
+                    <td style="padding: 8px; text-align: right;">$81,777.18</td>
+                    <td style="padding: 8px; text-align: left; font-family: monospace;">0x10f1d87fbb7617df5641d1c2bcb26f143f43202f</td>
+                </tr>
+        
+                <tr style="border-bottom: 1px solid #333;">
+                    <td style="padding: 8px; color: #8EF688;">LONG</td>
+                    <td style="padding: 8px; text-align: right;">26.0000</td>
+                    <td style="padding: 8px; text-align: right;">$2,130,326.62</td>
+                    <td style="padding: 8px; text-align: right;">$81,935.64</td>
+                    <td style="padding: 8px; text-align: left; font-family: monospace;">0x1a11e1ef48be22a2eee8699e0f57e0a867f7ed79</td>
+                </tr>
+        
+                <tr style="border-bottom: 1px solid #333;">
+                    <td style="padding: 8px; color: #8EF688;">LONG</td>
+                    <td style="padding: 8px; text-align: right;">27.1470</td>
+                    <td style="padding: 8px; text-align: right;">$2,073,343.09</td>
+                    <td style="padding: 8px; text-align: right;">$76,374.81</td>
+                    <td style="padding: 8px; text-align: left; font-family: monospace;">0xc6870be718616c6e949f91737331be4c9f83104a</td>
+                </tr>
+        
+                <tr style="border-bottom: 1px solid #333;">
+                    <td style="padding: 8px; color: #F68A8E;">SHORT</td>
+                    <td style="padding: 8px; text-align: right;">20.0000</td>
+                    <td style="padding: 8px; text-align: right;">$2,025,197.72</td>
+                    <td style="padding: 8px; text-align: right;">$101,259.89</td>
+                    <td style="padding: 8px; text-align: left; font-family: monospace;">0xcc89d2eb1f307e56f7c79a5f0a3384be6656bd41</td>
+                </tr>
+        
+                <tr style="border-bottom: 1px solid #333;">
+                    <td style="padding: 8px; color: #8EF688;">LONG</td>
+                    <td style="padding: 8px; text-align: right;">25.2012</td>
+                    <td style="padding: 8px; text-align: right;">$1,955,982.10</td>
+                    <td style="padding: 8px; text-align: right;">$77,614.55</td>
+                    <td style="padding: 8px; text-align: left; font-family: monospace;">0xb838d471bf105ec35ad9575bb2b4576a3a9d1162</td>
+                </tr>
+        
+                <tr style="border-bottom: 1px solid #333;">
+                    <td style="padding: 8px; color: #8EF688;">LONG</td>
+                    <td style="padding: 8px; text-align: right;">28.1955</td>
+                    <td style="padding: 8px; text-align: right;">$1,943,589.85</td>
+                    <td style="padding: 8px; text-align: right;">$68,932.67</td>
+                    <td style="padding: 8px; text-align: left; font-family: monospace;">0xf005093464e14cbacf0f9b9a371269fc118776dd</td>
+                </tr>
+        
+                <tr style="border-bottom: 1px solid #333;">
+                    <td style="padding: 8px; color: #8EF688;">LONG</td>
+                    <td style="padding: 8px; text-align: right;">28.2358</td>
+                    <td style="padding: 8px; text-align: right;">$1,896,368.77</td>
+                    <td style="padding: 8px; text-align: right;">$67,161.79</td>
+                    <td style="padding: 8px; text-align: left; font-family: monospace;">0x59d1013ce8df6cc870662cea24b35b7d00d37e16</td>
+                </tr>
+        
+                <tr style="border-bottom: 1px solid #333;">
+                    <td style="padding: 8px; color: #F68A8E;">SHORT</td>
+                    <td style="padding: 8px; text-align: right;">21.0053</td>
+                    <td style="padding: 8px; text-align: right;">$1,830,316.18</td>
+                    <td style="padding: 8px; text-align: right;">$87,136.13</td>
+                    <td style="padding: 8px; text-align: left; font-family: monospace;">0xac1b1cc2fee62d8dc215821a7afc1d8594ff2f92</td>
+                </tr>
+        
+                <tr style="border-bottom: 1px solid #333;">
+                    <td style="padding: 8px; color: #8EF688;">LONG</td>
+                    <td style="padding: 8px; text-align: right;">28.2605</td>
+                    <td style="padding: 8px; text-align: right;">$1,819,243.33</td>
+                    <td style="padding: 8px; text-align: right;">$64,374.14</td>
+                    <td style="padding: 8px; text-align: left; font-family: monospace;">0xbca9f41458f2c86a364e9da9df317ca2596167e0</td>
+                </tr>
+        
+                <tr style="border-bottom: 1px solid #333;">
+                    <td style="padding: 8px; color: #F68A8E;">SHORT</td>
+                    <td style="padding: 8px; text-align: right;">19.0000</td>
+                    <td style="padding: 8px; text-align: right;">$1,815,154.93</td>
+                    <td style="padding: 8px; text-align: right;">$95,534.47</td>
+                    <td style="padding: 8px; text-align: left; font-family: monospace;">0x4beab62f8a503e5bcd2b637a575d04eac6b3b1ef</td>
+                </tr>
+        
+                <tr style="border-bottom: 1px solid #333;">
+                    <td style="padding: 8px; color: #F68A8E;">SHORT</td>
+                    <td style="padding: 8px; text-align: right;">18.0202</td>
+                    <td style="padding: 8px; text-align: right;">$1,718,233.51</td>
+                    <td style="padding: 8px; text-align: right;">$95,350.41</td>
+                    <td style="padding: 8px; text-align: left; font-family: monospace;">0xb01ccdc577ebbe95f2e8e5da38d310d4c855cf22</td>
+                </tr>
+        
+                <tr style="border-bottom: 1px solid #333;">
+                    <td style="padding: 8px; color: #8EF688;">LONG</td>
+                    <td style="padding: 8px; text-align: right;">25.0000</td>
+                    <td style="padding: 8px; text-align: right;">$1,615,082.49</td>
+                    <td style="padding: 8px; text-align: right;">$64,603.30</td>
+                    <td style="padding: 8px; text-align: left; font-family: monospace;">0x0db31bce0adc4c7285029499fcfc5762bd222d03</td>
+                </tr>
+        
+                <tr style="border-bottom: 1px solid #333;">
+                    <td style="padding: 8px; color: #8EF688;">LONG</td>
+                    <td style="padding: 8px; text-align: right;">21.2143</td>
+                    <td style="padding: 8px; text-align: right;">$1,597,949.14</td>
+                    <td style="padding: 8px; text-align: right;">$75,324.29</td>
+                    <td style="padding: 8px; text-align: left; font-family: monospace;">0x7605576cc2f6b931a85d600219034e70ad9aca89</td>
+                </tr>
+        
+                <tr style="border-bottom: 1px solid #333;">
+                    <td style="padding: 8px; color: #F68A8E;">SHORT</td>
+                    <td style="padding: 8px; text-align: right;">17.0425</td>
+                    <td style="padding: 8px; text-align: right;">$1,577,517.18</td>
+                    <td style="padding: 8px; text-align: right;">$92,563.50</td>
+                    <td style="padding: 8px; text-align: left; font-family: monospace;">0x4fe56c2713883a96a1f42c2bf5c596b43f142bbc</td>
+                </tr>
+        
+                <tr style="border-bottom: 1px solid #333;">
+                    <td style="padding: 8px; color: #8EF688;">LONG</td>
+                    <td style="padding: 8px; text-align: right;">21.6061</td>
+                    <td style="padding: 8px; text-align: right;">$1,563,546.35</td>
+                    <td style="padding: 8px; text-align: right;">$72,365.87</td>
+                    <td style="padding: 8px; text-align: left; font-family: monospace;">0x64afae722a05b1d28e831b2c20a8ebfea9da6352</td>
+                </tr>
+        
+                <tr style="border-bottom: 1px solid #333;">
+                    <td style="padding: 8px; color: #8EF688;">LONG</td>
+                    <td style="padding: 8px; text-align: right;">20.2840</td>
+                    <td style="padding: 8px; text-align: right;">$1,552,049.90</td>
+                    <td style="padding: 8px; text-align: right;">$76,515.85</td>
+                    <td style="padding: 8px; text-align: left; font-family: monospace;">0x90860ae0751ebbec03efe52e10e886771f89affb</td>
+                </tr>
+        
+                <tr style="border-bottom: 1px solid #333;">
+                    <td style="padding: 8px; color: #F68A8E;">SHORT</td>
+                    <td style="padding: 8px; text-align: right;">14.7035</td>
+                    <td style="padding: 8px; text-align: right;">$1,471,691.24</td>
+                    <td style="padding: 8px; text-align: right;">$100,091.22</td>
+                    <td style="padding: 8px; text-align: left; font-family: monospace;">0x7688b399c3237d098be4688d222d586ab5236451</td>
+                </tr>
+        
+                <tr style="border-bottom: 1px solid #333;">
+                    <td style="padding: 8px; color: #F68A8E;">SHORT</td>
+                    <td style="padding: 8px; text-align: right;">13.0100</td>
+                    <td style="padding: 8px; text-align: right;">$1,218,132.59</td>
+                    <td style="padding: 8px; text-align: right;">$93,630.48</td>
+                    <td style="padding: 8px; text-align: left; font-family: monospace;">0x112819b32d30680790d9caac04b656dd52da21a1</td>
+                </tr>
+        
+                <tr style="border-bottom: 1px solid #333;">
+                    <td style="padding: 8px; color: #F68A8E;">SHORT</td>
+                    <td style="padding: 8px; text-align: right;">11.5350</td>
+                    <td style="padding: 8px; text-align: right;">$1,205,839.10</td>
+                    <td style="padding: 8px; text-align: right;">$104,537.42</td>
+                    <td style="padding: 8px; text-align: left; font-family: monospace;">0xc7662938031924398ffc51d47f8964c4d5b060a9</td>
+                </tr>
+        
+                <tr style="border-bottom: 1px solid #333;">
+                    <td style="padding: 8px; color: #8EF688;">LONG</td>
+                    <td style="padding: 8px; text-align: right;">15.0000</td>
+                    <td style="padding: 8px; text-align: right;">$1,153,449.01</td>
+                    <td style="padding: 8px; text-align: right;">$76,896.60</td>
+                    <td style="padding: 8px; text-align: left; font-family: monospace;">0x93c2d261f937ed79572f2474a96d5635c2d9f0fd</td>
+                </tr>
+        
+                <tr style="border-bottom: 1px solid #333;">
+                    <td style="padding: 8px; color: #8EF688;">LONG</td>
+                    <td style="padding: 8px; text-align: right;">14.1744</td>
+                    <td style="padding: 8px; text-align: right;">$1,116,978.96</td>
+                    <td style="padding: 8px; text-align: right;">$78,802.78</td>
+                    <td style="padding: 8px; text-align: left; font-family: monospace;">0x9ee1873ba8383b1d4ac459abd3c9c006eaa8800a</td>
+                </tr>
+        
+            </tbody>
+        </table>
+    </div>
+    
+            <div class="timestamp">
+                Generated on 2025-03-09 16:32:54
+            </div>
+        </body>
+        </html>
+        
